@@ -1410,6 +1410,11 @@ run(void)
 }
 
 void
+runAutostart(void) {
+	system("cd ~/.dwm; ./autostart.sh &");
+}
+
+void
 scan(void)
 {
 	unsigned int i, num;
@@ -2377,6 +2382,13 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	setup();
+	scan();
+	restoreSession();
+	runAutostart();
+ 	run();
+	if(restart) execvp(argv[0], argv);
+ 	cleanup();
+
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
